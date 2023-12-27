@@ -1,7 +1,7 @@
 
 import AdjacentPostCard from '@/components/AdjacentPostCard';
 import PostContent from '@/components/PostContent';
-import { getPostData } from '@/service/posts'
+import { getFeaturedPosts, getPostData } from '@/service/posts'
 import { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react'
@@ -44,4 +44,13 @@ export default async function Postpage({ params : {slug}} :Props) {
             </section>
         </article>
     )
+}
+
+// 개발자가 원하는 param의 데이터가 미리 프리렌더링 하고 싶게 하면 아래의 함수 사용 !!
+// 데이터가 많아질수록 빌드시간이 증가하여 오히려 단점이 될 수 있음
+export async function generateStaticParams() {
+    const posts = await getFeaturedPosts();
+    return posts.map((post) => ({
+        slug : post.path,
+    }))
 }
