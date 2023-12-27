@@ -2,12 +2,25 @@
 import AdjacentPostCard from '@/components/AdjacentPostCard';
 import PostContent from '@/components/PostContent';
 import { getPostData } from '@/service/posts'
+import { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react'
+
+
+
 
 type Props = {
     params : {
         slug : string,
+    }
+}
+
+// 동적인 메타데이타 문법 !!! (Next 제공)
+export async function generateMetadata({params : {slug}} : Props) :Promise<Metadata> {
+    const {title, description} = await getPostData(slug);
+    return {
+        title: title,
+        description
     }
 }
 
